@@ -1,0 +1,6 @@
+include ':latte-ec'
+include ':latte-core'
+include ':latte-compiler'
+include ':latte-annotation'
+include ':example'
+rootProject.name = "ClassicEC"
