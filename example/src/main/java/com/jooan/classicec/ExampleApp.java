@@ -10,7 +10,7 @@ public class ExampleApp extends Application {
     public void onCreate() {
         super.onCreate();
         Latte.init(this)
-                .withApiHost("")
+                .withApiHost("https://www.baidu.co")
                 .withIcon(new FontAwesomeModule())
                 .configure();
     }
