@@ -1,12 +1,15 @@
 package com.jooan.latte_core.net;
 
 
+import android.content.Context;
+
 import com.jooan.latte_core.net.callback.HttpMethod;
 import com.jooan.latte_core.net.callback.IError;
 import com.jooan.latte_core.net.callback.IFailure;
 import com.jooan.latte_core.net.callback.IRequest;
 import com.jooan.latte_core.net.callback.IRequestCallBacks;
 import com.jooan.latte_core.net.callback.ISuccess;
+import com.jooan.latte_core.ui.LoaderStyle;
 
 import java.util.Map;
 
@@ -21,8 +24,10 @@ public class RestClient {
     private final ISuccess ISUCCESS;
     private final IError IERROR;
     private final IFailure IFAILURE;
+    private final LoaderStyle LOADERSTYLE;
+    private final Context CONTEXT;
 
-    public RestClient(String url, Map<String, Object> params, RequestBody body, IRequest iRequest, ISuccess iSuccess, IError iError, IFailure iFailure) {
+    public RestClient(String url, Map<String, Object> params, RequestBody body, IRequest iRequest, ISuccess iSuccess, IError iError, IFailure iFailure,LoaderStyle loaderStyle,Context context) {
         this.URL = url;
         PARAMS.putAll(params);
         this.BODY = body;
@@ -30,6 +35,8 @@ public class RestClient {
         this.ISUCCESS = iSuccess;
         this.IERROR = iError;
         this.IFAILURE = iFailure;
+        this.LOADERSTYLE = loaderStyle;
+        this.CONTEXT = context;
     }
 
     private void request(HttpMethod method){
@@ -61,7 +68,7 @@ public class RestClient {
     }
 
     private  IRequestCallBacks getIRequestCallBacks(){
-        return new IRequestCallBacks(IREQUEST,ISUCCESS,IERROR,IFAILURE);
+        return new IRequestCallBacks(IREQUEST,ISUCCESS,IERROR,IFAILURE,LOADERSTYLE,CONTEXT);
     }
 
     public final  void get(){

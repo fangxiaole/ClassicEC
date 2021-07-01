@@ -10,6 +10,7 @@ import com.jooan.latte_core.app.Latte;
 import com.jooan.latte_core.net.RestClient;
 import com.jooan.latte_core.net.RestClientBuiler;
 import com.jooan.latte_core.net.callback.ISuccess;
+import com.jooan.latte_core.ui.LoaderStyle;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,10 +25,11 @@ public class MainActivity extends AppCompatActivity {
                 .success(new ISuccess() {
                     @Override
                     public void onSucess(String response) {
-                        tx_test.setText(response);
+//                        tx_test.setText(response);
 
                     }
                 })
+                .loading(LoaderStyle.BallBeatIndicator,this)
                 .Builer()
         .get();
     }

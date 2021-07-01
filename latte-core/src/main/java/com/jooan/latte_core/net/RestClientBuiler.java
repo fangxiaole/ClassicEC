@@ -1,9 +1,13 @@
 package com.jooan.latte_core.net;
 
+import android.content.Context;
+
 import com.jooan.latte_core.net.callback.IError;
 import com.jooan.latte_core.net.callback.IFailure;
 import com.jooan.latte_core.net.callback.IRequest;
 import com.jooan.latte_core.net.callback.ISuccess;
+import com.jooan.latte_core.ui.LatteLoader;
+import com.jooan.latte_core.ui.LoaderStyle;
 
 import java.util.WeakHashMap;
 
@@ -18,6 +22,8 @@ public class RestClientBuiler {
     private ISuccess mISuccess;
     private IError mIError;
     private IFailure mIFailure;
+    private LoaderStyle mloaderStyle;
+    private Context mcontext;
 
     public final RestClientBuiler url(String url){
         this.mUrl=url;
@@ -54,8 +60,20 @@ public class RestClientBuiler {
         return this;
     }
 
+    public final RestClientBuiler loading(LoaderStyle loaderStyle,Context context){
+        this.mloaderStyle=loaderStyle;
+        this.mcontext = context;
+        return this;
+    }
+
+    public final RestClientBuiler loading(Context context){
+        this.mloaderStyle= LatteLoader.LOADING_STYLE;
+        this.mcontext = context;
+        return this;
+    }
+
     public final RestClient Builer(){
-        return new RestClient(mUrl,PARAMS,mBody,mIRequest,mISuccess,mIError,mIFailure);
+        return new RestClient(mUrl,PARAMS,mBody,mIRequest,mISuccess,mIError,mIFailure,mloaderStyle,mcontext);
     }
 
 
