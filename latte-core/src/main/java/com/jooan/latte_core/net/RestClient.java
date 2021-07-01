@@ -11,8 +11,11 @@ import com.jooan.latte_core.net.callback.IRequestCallBacks;
 import com.jooan.latte_core.net.callback.ISuccess;
 import com.jooan.latte_core.ui.LoaderStyle;
 
+import java.io.File;
 import java.util.Map;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 
@@ -26,8 +29,9 @@ public class RestClient {
     private final IFailure IFAILURE;
     private final LoaderStyle LOADERSTYLE;
     private final Context CONTEXT;
+    private final File FILE;
 
-    public RestClient(String url, Map<String, Object> params, RequestBody body, IRequest iRequest, ISuccess iSuccess, IError iError, IFailure iFailure,LoaderStyle loaderStyle,Context context) {
+    public RestClient(String url, Map<String, Object> params, RequestBody body, IRequest iRequest, ISuccess iSuccess, IError iError, IFailure iFailure,File file,LoaderStyle loaderStyle,Context context) {
         this.URL = url;
         PARAMS.putAll(params);
         this.BODY = body;
@@ -37,6 +41,7 @@ public class RestClient {
         this.IFAILURE = iFailure;
         this.LOADERSTYLE = loaderStyle;
         this.CONTEXT = context;
+        this.FILE = file;
     }
 
     private void request(HttpMethod method){
@@ -52,11 +57,22 @@ public class RestClient {
             case POST:
                 call = service.post(URL,PARAMS);
                 break;
+            case POST_RAW:
+                call = service.postRaw(URL,BODY);
+                break;
             case PUT:
                 call = service.put(URL,PARAMS);
                 break;
+            case PUT_RAW:
+                call = service.putRaw(URL,BODY);
+                break;
             case DELETE:
                 call = service.delete(URL,PARAMS);
+                break;
+            case UPLOAD:
+                RequestBody requestBody = RequestBody.create(MediaType.parse(MultipartBody.FORM.toString()),FILE);
+                MultipartBody.Part body = MultipartBody.Part.createFormData("file",FILE.getName(),requestBody);
+                call = service.upload(URL,body);
                 break;
             default:
                 break;
@@ -75,12 +91,33 @@ public class RestClient {
         request(HttpMethod.GET);
     }
     public final  void post(){
-        request(HttpMethod.POST);
+        if(BODY==null){
+            request(HttpMethod.POST);
+        }else {
+            if(PARAMS.isEmpty()){
+                throw new RuntimeException("params must be null!");
+            }else{
+                request(HttpMethod.POST_RAW);
+            }
+        }
+
     }
     public final  void put(){
-        request(HttpMethod.PUT);
+        if(BODY==null){
+            request(HttpMethod.PUT);
+        }else {
+            if(PARAMS.isEmpty()){
+                throw new RuntimeException("params must be null!");
+            }else{
+                request(HttpMethod.PUT_RAW);
+            }
+        }
     }
     public final  void delete(){
         request(HttpMethod.DELETE);
+    }
+
+    public final void upload(){
+        request(HttpMethod.UPLOAD);
     }
 }

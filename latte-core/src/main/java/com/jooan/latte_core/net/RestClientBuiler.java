@@ -9,6 +9,7 @@ import com.jooan.latte_core.net.callback.ISuccess;
 import com.jooan.latte_core.ui.LatteLoader;
 import com.jooan.latte_core.ui.LoaderStyle;
 
+import java.io.File;
 import java.util.WeakHashMap;
 
 import okhttp3.MediaType;
@@ -22,6 +23,7 @@ public class RestClientBuiler {
     private ISuccess mISuccess;
     private IError mIError;
     private IFailure mIFailure;
+    private File mfile;
     private LoaderStyle mloaderStyle;
     private Context mcontext;
 
@@ -60,6 +62,16 @@ public class RestClientBuiler {
         return this;
     }
 
+    public final RestClientBuiler file(File file){
+        this.mfile=file;
+        return this;
+    }
+    public final RestClientBuiler file(String filePath){
+        this.mfile=new File(filePath);
+        return this;
+    }
+
+
     public final RestClientBuiler loading(LoaderStyle loaderStyle,Context context){
         this.mloaderStyle=loaderStyle;
         this.mcontext = context;
@@ -73,7 +85,7 @@ public class RestClientBuiler {
     }
 
     public final RestClient Builer(){
-        return new RestClient(mUrl,PARAMS,mBody,mIRequest,mISuccess,mIError,mIFailure,mloaderStyle,mcontext);
+        return new RestClient(mUrl,PARAMS,mBody,mIRequest,mISuccess,mIError,mIFailure,mfile,mloaderStyle,mcontext);
     }
 
 

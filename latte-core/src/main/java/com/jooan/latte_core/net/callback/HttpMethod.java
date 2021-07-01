@@ -3,6 +3,9 @@ package com.jooan.latte_core.net.callback;
 public enum HttpMethod {
     GET,
     POST,
+    POST_RAW,
     PUT,
-    DELETE
+    PUT_RAW,
+    DELETE,
+    UPLOAD
 }
