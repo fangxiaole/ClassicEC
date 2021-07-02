@@ -24,6 +24,9 @@ public class RestClientBuiler {
     private IError mIError;
     private IFailure mIFailure;
     private File mfile;
+    private String mdownDir;
+    private String mextension;
+    private String mname;
     private LoaderStyle mloaderStyle;
     private Context mcontext;
 
@@ -71,6 +74,21 @@ public class RestClientBuiler {
         return this;
     }
 
+    public final RestClientBuiler dir(String dir){
+        this.mdownDir = dir;
+        return this;
+    }
+
+    public final RestClientBuiler extension(String extension){
+        this.mextension = extension;
+        return this;
+    }
+
+    public final RestClientBuiler name(String name){
+        this.mname = name;
+        return this;
+    }
+
 
     public final RestClientBuiler loading(LoaderStyle loaderStyle,Context context){
         this.mloaderStyle=loaderStyle;
@@ -85,7 +103,7 @@ public class RestClientBuiler {
     }
 
     public final RestClient Builer(){
-        return new RestClient(mUrl,PARAMS,mBody,mIRequest,mISuccess,mIError,mIFailure,mfile,mloaderStyle,mcontext);
+        return new RestClient(mUrl,PARAMS,mBody,mIRequest,mISuccess,mIError,mIFailure,mfile,mdownDir,mextension,mname,mloaderStyle,mcontext);
     }
 
 
