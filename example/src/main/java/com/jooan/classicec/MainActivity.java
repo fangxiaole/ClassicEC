@@ -20,11 +20,11 @@ public class MainActivity extends AppCompatActivity {
         TextView tx_test = findViewById(R.id.tx_test);
         Toast.makeText(Latte.getApplicationContext(),"context传入",Toast.LENGTH_SHORT).show();
         new RestClientBuiler()
-                .url("https://www.baidu.com")
+                .url("https://www.baidu.com/test")
                 .success(new ISuccess() {
                     @Override
                     public void onSucess(String response) {
-//                        tx_test.setText(response);
+                        tx_test.setText(response);
 
                     }
                 })

@@ -6,9 +6,12 @@ import com.joanzapata.iconify.Iconify;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import okhttp3.Interceptor;
+
 public class Configurator {
-    public static final HashMap<String,Object> LATTE_CONFIGS = new HashMap<>();
+    public static final HashMap<Object,Object> LATTE_CONFIGS = new HashMap<>();
     public static final ArrayList<IconFontDescriptor> ICONS = new ArrayList<>();
+    public static final ArrayList<Interceptor> INTERCEPTORS = new ArrayList<>();
 
     private Configurator(){
         LATTE_CONFIGS.put(ConfigType.CONFIG_READY.name(),false);
@@ -23,7 +26,7 @@ public class Configurator {
         private static final Configurator mInstance = new Configurator();
     }
 
-    final HashMap<String,Object> getLatteConfigs(){
+    final HashMap<Object,Object> getLatteConfigs(){
         return LATTE_CONFIGS;
     }
 
@@ -55,6 +58,19 @@ public class Configurator {
 
     public final Configurator withApiHost(String host){
         LATTE_CONFIGS.put(ConfigType.API_HOSE.name(),host);
+        return this;
+
+    }
+
+    public final Configurator withInterceptor(Interceptor interceptor){
+        INTERCEPTORS.add(interceptor);
+        LATTE_CONFIGS.put(ConfigType.INTERCEPTORS,INTERCEPTORS);
+        return this;
+    }
+
+    public final Configurator withInterceptor(ArrayList<Interceptor> interceptors){
+        INTERCEPTORS.addAll(interceptors);
+        LATTE_CONFIGS.put(ConfigType.INTERCEPTORS,INTERCEPTORS);
         return this;
 
     }
